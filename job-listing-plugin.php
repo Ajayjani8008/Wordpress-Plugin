@@ -33,6 +33,23 @@ add_action('admin_menu', 'jlm_register_settings_page');
 add_action('admin_init', 'jlm_register_settings');
 add_action('rest_api_init', 'jlm_register_rest_routes');
 
+// Add template filter for single job listings
+add_filter('single_template', 'jlm_load_job_template');
+
+function jlm_load_job_template($template) {
+    global $post;
+
+    if ($post->post_type === 'job_listing') {
+        $custom_template = JLM_PLUGIN_DIR . 'templates/single-job-listing.php';
+        
+        if (file_exists($custom_template)) {
+            return $custom_template;
+        }
+    }
+
+    return $template;
+}
+
 // Register shortcode
 add_shortcode('job_listings', 'jlm_job_listings_shortcode');
 

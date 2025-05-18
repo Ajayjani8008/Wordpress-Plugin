@@ -1,7 +1,8 @@
 <?php
-defined( 'ABSPATH' ) || exit;
+defined('ABSPATH') || exit;
 
-function jlm_register_meta_boxes() {
+function jlm_register_meta_boxes()
+{
     add_meta_box(
         'jlm_job_details',
         'Job Details',
@@ -12,14 +13,15 @@ function jlm_register_meta_boxes() {
     );
 }
 
-function jlm_job_meta_callback( $post ) {
-    wp_nonce_field( 'jlm_save_job_meta', 'jlm_job_meta_nonce' );
+function jlm_job_meta_callback($post)
+{
+    wp_nonce_field('jlm_save_job_meta', 'jlm_job_meta_nonce');
 
-    $company = get_post_meta( $post->ID, 'company_name', true );
-    $location = get_post_meta( $post->ID, 'job_location', true );
-    $salary = get_post_meta( $post->ID, 'salary_range', true );
-    $deadline = get_post_meta( $post->ID, 'application_deadline', true );
-    ?>
+    $company = get_post_meta($post->ID, 'company_name', true);
+    $location = get_post_meta($post->ID, 'job_location', true);
+    $salary = get_post_meta($post->ID, 'salary_range', true);
+    $deadline = get_post_meta($post->ID, 'application_deadline', true);
+?>
     <div class="job-meta-box">
         <p>
             <label for="company_name">Company Name:</label>
@@ -38,19 +40,20 @@ function jlm_job_meta_callback( $post ) {
             <input type="date" id="application_deadline" name="application_deadline" value="<?php echo esc_attr($deadline); ?>" class="widefat">
         </p>
     </div>
-    <?php
+<?php
 }
 
-function jlm_save_job_meta( $post_id, $post ) {
-    if ( ! isset( $_POST['jlm_job_meta_nonce'] ) || ! wp_verify_nonce( $_POST['jlm_job_meta_nonce'], 'jlm_save_job_meta' ) ) {
+function jlm_save_job_meta($post_id, $post)
+{
+    if (! isset($_POST['jlm_job_meta_nonce']) || ! wp_verify_nonce($_POST['jlm_job_meta_nonce'], 'jlm_save_job_meta')) {
         return;
     }
 
-    if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) return;
+    if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) return;
 
-    if ( $post->post_type !== 'job_listing' ) return;
+    if ($post->post_type !== 'job_listing') return;
 
-    if ( ! current_user_can( 'edit_post', $post_id ) ) return;
+    if (! current_user_can('edit_post', $post_id)) return;
 
     $fields = array(
         'company_name' => 'sanitize_text_field',
