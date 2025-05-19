@@ -76,6 +76,7 @@ function jlm_enable_api_callback()
 {
     $enabled = get_option('jlm_enable_api', true);
 ?>
+     <input type="hidden" name="jlm_enable_api" value="0">
     <label>
         <input type="checkbox" name="jlm_enable_api" value="1" <?php checked($enabled); ?>>
         Enable REST API access for job listings
