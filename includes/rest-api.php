@@ -8,7 +8,7 @@ function jlm_register_rest_routes()
         'callback' => 'jlm_get_job_listings',
        'permission_callback' => function () {
             if (!get_option('jlm_enable_api', true)) {
-                return new WP_Error('api_disabled', __('API access is disabled.', 'text-domain'), array('status' => 403));
+                return new WP_Error('api_disabled', __('API access is disabled.', 'job-listing-manager'), array('status' => 403));
             }
             return true;
         }
